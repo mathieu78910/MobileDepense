@@ -17,6 +17,7 @@ type CreateSubscriptionInput = {
 type SubscriptionsContextValue = {
   subscriptions: AppSubscription[];
   addSubscription: (input: CreateSubscriptionInput) => void;
+  deleteSubscription: (id: string) => void;
 };
 
 const SubscriptionsContext = createContext<SubscriptionsContextValue | null>(null);
@@ -65,6 +66,11 @@ export function SubscriptionsProvider({
         };
 
         setSubscriptions((current) => [next, ...current]);
+      },
+      deleteSubscription: (id) => {
+        setSubscriptions((current) =>
+          current.filter((subscription) => subscription.id !== id),
+        );
       },
     }),
     [subscriptions],

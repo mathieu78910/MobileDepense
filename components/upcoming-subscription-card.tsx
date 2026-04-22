@@ -9,7 +9,7 @@ export function UpcomingSubscriptionCard({
 }) {
   return (
     <View
-      className="mr-4 w-48 rounded-[28px] border border-border p-4"
+      className="mr-4 w-52 rounded-[30px] border border-border p-5"
       style={{ backgroundColor: item.color ?? "#FFF9F4" }}
     >
       <View className="mb-5 flex-row items-start justify-between">

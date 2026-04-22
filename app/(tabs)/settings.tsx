@@ -1,15 +1,21 @@
 import { homeUser } from "@/constants/data";
+import { components } from "@/constants/theme";
 import { Link } from "expo-router";
 import { Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function SettingsScreen() {
   const insets = useSafeAreaInsets();
+  const layout = components.layout;
 
   return (
     <View
-      className="flex-1 bg-background px-5"
-      style={{ paddingTop: insets.top + 18, paddingBottom: 120 }}
+      className="flex-1 bg-background"
+      style={{
+        paddingTop: insets.top + 18,
+        paddingBottom: 132,
+        paddingHorizontal: layout.screenPadding,
+      }}
     >
       <Text className="text-3xl font-bold text-foreground">Settings</Text>
       <View className="mt-8 rounded-[28px] bg-card p-5">

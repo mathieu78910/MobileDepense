@@ -9,17 +9,21 @@ import { Pressable, Text, View } from "react-native";
 type Props = AppSubscription & {
   expanded?: boolean;
   onPress?: () => void;
+  onViewDetails?: () => void;
+  onDelete?: () => void;
 };
 
 export function SubscriptionCard({
   expanded = false,
   onPress,
+  onViewDetails,
+  onDelete,
   ...subscription
 }: Props) {
   return (
     <Pressable
       onPress={onPress}
-      className={`rounded-[28px] border border-border p-5 ${
+      className={`rounded-[30px] border border-border p-6 ${
         expanded ? "bg-card" : ""
       }`}
       style={{
@@ -53,11 +57,18 @@ export function SubscriptionCard({
           <Text className="mt-1 text-xs text-muted">
             {subscription.billingFrequency}
           </Text>
+          {subscription.status ? (
+            <View className="mt-2 rounded-full bg-white/75 px-2.5 py-1">
+              <Text className="text-[10px] font-semibold uppercase tracking-[1px] text-muted">
+                {formatStatusLabel(subscription.status)}
+              </Text>
+            </View>
+          ) : null}
         </View>
       </View>
 
       {expanded ? (
-        <View className="mt-5 border-t border-border pt-4">
+        <View className="mt-6 border-t border-border pt-5">
           <DetailRow
             label="Payment"
             value={subscription.paymentMethod?.trim() || "Not provided"}
@@ -82,6 +93,34 @@ export function SubscriptionCard({
             label="Status"
             value={formatStatusLabel(subscription.status)}
           />
+
+          <View className="mt-3 flex-row gap-3">
+            <Pressable
+              onPress={(event) => {
+                event.stopPropagation();
+                onViewDetails?.();
+              }}
+              className="flex-1 rounded-2xl border border-border bg-white/70 px-4 py-3"
+            >
+              <Text className="text-center text-sm font-semibold text-foreground">
+                View details
+              </Text>
+            </Pressable>
+            <Pressable
+              onPress={(event) => {
+                event.stopPropagation();
+                onDelete?.();
+              }}
+              className="flex-1 rounded-2xl border border-[#E9B5AE] bg-[#FCE9E6] px-4 py-3"
+            >
+              <Text
+                className="text-center text-sm font-semibold"
+                style={{ color: "#C35242" }}
+              >
+                Delete
+              </Text>
+            </Pressable>
+          </View>
         </View>
       ) : null}
     </Pressable>
@@ -92,7 +131,7 @@ function DetailRow({ label, value }: { label: string; value: string }) {
   return (
     <View className="mb-3 flex-row items-start justify-between">
       <Text className="mr-3 text-sm text-muted">{label}</Text>
-      <Text numberOfLines={1} className="max-w-[68%] text-right text-sm font-medium text-foreground">
+      <Text numberOfLines={1} className="max-w-[64%] text-right text-sm font-medium text-foreground">
         {value}
       </Text>
     </View>

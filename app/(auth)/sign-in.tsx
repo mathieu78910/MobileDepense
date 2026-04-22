@@ -20,7 +20,7 @@ export default function SignInScreen() {
         className="mt-4 rounded-2xl border border-border bg-card px-4 py-4 text-foreground"
       />
       <Link
-        href="/(tabs)/index"
+        href="/(tabs)"
         className="mt-6 rounded-full bg-primary px-6 py-4 text-center text-white"
       >
         Continue locally

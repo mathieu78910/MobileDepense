@@ -3,18 +3,41 @@ import { ListHeading } from "@/components/list-heading";
 import { SubscriptionCard } from "@/components/subscription-card";
 import { UpcomingSubscriptionCard } from "@/components/upcoming-subscription-card";
 import { homeBalance, homeUser } from "@/constants/data";
+import { components } from "@/constants/theme";
 import { useSubscriptions } from "@/lib/subscriptions-context";
 import { formatCurrency, formatMonthDay } from "@/lib/utils";
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import { useState } from "react";
-import { FlatList, Pressable, Text, View } from "react-native";
+import { Alert, FlatList, Pressable, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
-  const { subscriptions, upcoming, addSubscription } = useSubscriptions();
+  const layout = components.layout;
+  const router = useRouter();
+  const { subscriptions, upcoming, addSubscription, deleteSubscription } =
+    useSubscriptions();
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+
+  const confirmDelete = (id: string, name: string) => {
+    Alert.alert(
+      "Delete subscription",
+      `Remove ${name} from your subscriptions?`,
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: () => {
+            deleteSubscription(id);
+            setExpandedId((current) => (current === id ? null : current));
+          },
+        },
+      ],
+    );
+  };
 
   return (
     <>
@@ -28,12 +51,22 @@ export default function HomeScreen() {
             onPress={() =>
               setExpandedId((current) => (current === item.id ? null : item.id))
             }
+            onViewDetails={() =>
+              router.push({
+                pathname: "/subscriptions/[id]",
+                params: { id: item.id },
+              })
+            }
+            onDelete={() => confirmDelete(item.id, item.name)}
           />
         )}
         ItemSeparatorComponent={() => <View className="h-4" />}
         showsVerticalScrollIndicator={false}
-        contentContainerClassName="px-5 pb-32"
-        contentContainerStyle={{ paddingTop: insets.top + 18 }}
+        contentContainerClassName="pb-36"
+        contentContainerStyle={{
+          paddingTop: insets.top + 18,
+          paddingHorizontal: layout.screenPadding,
+        }}
         ListHeaderComponent={
           <>
             <View className="mb-6 flex-row items-center justify-between">
@@ -82,6 +115,7 @@ export default function HomeScreen() {
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => <UpcomingSubscriptionCard item={item} />}
                 showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{ paddingRight: 4 }}
                 ListEmptyComponent={
                   <Text className="text-sm text-muted">No upcoming renewals yet.</Text>
                 }

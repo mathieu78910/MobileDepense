@@ -11,10 +11,14 @@ export const colors = {
 };
 
 export const components = {
+  layout: {
+    screenPadding: 24,
+  },
   tabBar: {
-    height: 68,
-    horizontalInset: 20,
-    iconFrame: 46,
-    radius: 28,
+    height: 84,
+    horizontalInset: 16,
+    iconFrame: 50,
+    labelWidth: 76,
+    radius: 30,
   },
 };

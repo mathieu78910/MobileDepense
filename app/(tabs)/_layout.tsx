@@ -30,9 +30,13 @@ export default function TabsLayout() {
           backgroundColor: colors.tab,
           borderTopWidth: 0,
           elevation: 0,
+          paddingHorizontal: 6,
         },
         tabBarItemStyle: {
-          paddingVertical: (tabBar.height - tabBar.iconFrame) / 2.2,
+          justifyContent: "center",
+          alignItems: "center",
+          paddingTop: 14,
+          paddingBottom: 4,
         },
       }}
     >
@@ -43,9 +47,9 @@ export default function TabsLayout() {
           options={{
             title: tab.title,
             tabBarIcon: ({ focused }) => (
-              <View className="items-center justify-center">
+              <View className="items-center justify-center pt-1">
                 <View
-                  className={`h-12 w-12 items-center justify-center rounded-full ${
+                  className={`h-11 w-11 items-center justify-center rounded-full ${
                     focused ? "bg-white" : ""
                   }`}
                 >
@@ -56,7 +60,12 @@ export default function TabsLayout() {
                   />
                 </View>
                 <Text
-                  className={`mt-1 text-[10px] ${
+                  numberOfLines={1}
+                  adjustsFontSizeToFit
+                  minimumFontScale={0.78}
+                  maxFontSizeMultiplier={1}
+                  style={{ width: tabBar.labelWidth }}
+                  className={`mt-1.5 text-center text-[11px] font-medium ${
                     focused ? "text-white" : "text-[#D5C1B4]"
                   }`}
                 >

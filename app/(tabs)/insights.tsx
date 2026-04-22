@@ -1,10 +1,12 @@
 import { useSubscriptions } from "@/lib/subscriptions-context";
 import { formatCurrency } from "@/lib/utils";
+import { components } from "@/constants/theme";
 import { Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function InsightsScreen() {
   const insets = useSafeAreaInsets();
+  const layout = components.layout;
   const { subscriptions } = useSubscriptions();
 
   const total = subscriptions.reduce((sum, item) => sum + item.price, 0);
@@ -15,8 +17,12 @@ export default function InsightsScreen() {
 
   return (
     <View
-      className="flex-1 bg-background px-5"
-      style={{ paddingTop: insets.top + 18, paddingBottom: 120 }}
+      className="flex-1 bg-background"
+      style={{
+        paddingTop: insets.top + 18,
+        paddingBottom: 132,
+        paddingHorizontal: layout.screenPadding,
+      }}
     >
       <Text className="text-3xl font-bold text-foreground">Insights</Text>
       <Text className="mt-2 text-base text-muted">
